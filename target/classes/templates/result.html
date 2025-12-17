@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Price Result</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<h2>Price Calculation Result</h2>
+
+<p>
+    <b>Base Price:</b>
+    <span th:text="${response.basePrice}"></span>
+</p>
+
+<p>
+    <b>Final Price:</b>
+    <span th:text="${response.finalPrice}"></span>
+</p>
+
+<h3>Applied Rules</h3>
+
+<table border="1">
+    <tr>
+        <th>Rule Name</th>
+        <th>Type</th>
+        <th>Discount</th>
+    </tr>
+    <tr th:each="r : ${response.appliedRules}">
+        <td th:text="${r.ruleName}"></td>
+        <td th:text="${r.ruleType}"></td>
+        <td th:text="${r.discountAmount}"></td>
+    </tr>
+</table>
+
+<br/>
+<a href="/ui/price">Back</a>
+
+</body>
+</html>

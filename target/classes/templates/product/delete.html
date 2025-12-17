@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Confirm Delete</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="container">
+    <h2>Confirm Delete</h2>
+
+    <p>
+        Are you sure you want to delete
+        <b th:text="${product.name}"></b>?
+    </p>
+
+    <form th:action="@{/ui/products/delete}" method="post">
+        <input type="hidden" name="id" th:value="${product.id}"/>
+
+        <button type="submit" style="background-color:red;">
+            Yes, Delete
+        </button>
+
+        <a href="/ui/products">Cancel</a>
+    </form>
+</div>
+
+</body>
+</html>

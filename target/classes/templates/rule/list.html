@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Pricing Rules</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="container">
+    <h2>Pricing Rules</h2>
+    <a href="/ui/rules/add">➕ Add Rule</a>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Value</th>
+            <th>Priority</th>
+            <th>Active</th>
+            <th>Action</th>
+        </tr>
+
+        <tr th:each="r : ${rules}">
+            <td th:text="${r.name}"></td>
+            <td th:text="${r.ruleType}"></td>
+            <td th:text="${r.value}"></td>
+            <td th:text="${r.priority}"></td>
+            <td th:text="${r.isActive}"></td>
+            <td>
+                <a th:href="@{/ui/rules/edit/{id}(id=${r.id})}">Edit</a> |
+                <a th:href="@{/ui/rules/delete/{id}(id=${r.id})}"
+                   style="color:red;">Delete</a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>

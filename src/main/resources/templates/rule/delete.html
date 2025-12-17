@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Delete Rule</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="container">
+    <h2>Confirm Delete</h2>
+    <p>Delete rule <b th:text="${rule.name}"></b>?</p>
+
+    <form th:action="@{/ui/rules/delete}" method="post">
+        <input type="hidden" name="id" th:value="${rule.id}">
+        <button type="submit" style="background:red;">Delete</button>
+        <a href="/ui/rules">Cancel</a>
+    </form>
+</div>
+
+</body>
+</html>
