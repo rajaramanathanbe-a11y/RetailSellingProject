@@ -1,0 +1,118 @@
+Client (Browser / API Consumer) -> Controller Layer (REST + Thymeleaf MVC) -> Service Layer (Business Logic & Pricing Engine) -> Repository Layer (Spring Data JPA) -> Database
+
+1?.Controller Layer
+------------------
+Purpose: Handles incoming HTTP requests and routes them to the appropriate service methods.
+
+Types of Controllers:
+
+REST Controllers
+
+Expose APIs for products, pricing rules, and price computation
+
+Rest endpoint : /api/products, /api/rules, /api/price/compute
+
+MVC Controllers
+
+Render Thymeleaf templates for admin UI
+
+WEB UI: /ui/products, /ui/rules,/ui/price/compute
+
+Responsibilities:
+
+Request validation
+
+Request/response mapping
+
+View resolution(Thymeleaf)
+
+Delegation to service layer
+
+No business logic is implemented here
+
+2.Service Layer
+-------------------------------------
+Purpose: Contains all business rules and core application logic.
+
+Key Services:
+
+Product Service
+
+Pricing Rule Service
+
+Price Engine Service
+
+Responsibilities:
+
+Fetch product and pricing rules
+
+Evaluate rule conditions (condition_json)
+
+Apply rules in priority order
+
+Compute final price
+
+Build response DTOs
+
+This layer is framework-independent and unit-test friendly
+
+
+3.Pricing Engine Design (Core Logic)
+-------------------------------------
+The pricing engine:
+
+Loads all active pricing rules
+
+Sorts them by priority
+
+Applies rules using Strategy Pattern
+
+Produces:
+
+Base price
+
+Applied rules
+
+Final computed price
+
+
+4.Repository Layer
+-----------------------
+
+Purpose: Handles data persistence and retrieval.
+
+Technology:
+
+Spring Data JPA
+
+Hibernate ORM
+
+Responsibilities:
+
+CRUD operations
+
+Query abstraction
+
+Entity persistence
+
+No SQL in service layer
+Easy to switch databases (H2 <-> MySQL)
+
+5.View Layer (Thymeleaf)
+------------------------
+Purpose: Provides a server-side rendered admin console.
+
+Features: 
+
+Product management UI
+Pricing rule management UI
+Validation feedback
+Clean layout using CSS
+
+Why Thymeleaf:
+
+Tight Spring Boot integration
+
+No frontend build pipeline
+
+Ideal for admin/internal tools

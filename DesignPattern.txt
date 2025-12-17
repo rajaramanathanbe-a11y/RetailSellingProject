@@ -1,0 +1,175 @@
+Strategy Pattern - Pricing rule execution logic
+
+Each pricing rule type (percentage discount, flat discount, bulk pricing, category promotion) has a different calculation algorithm.
+
+1)A common interface defines the rule execution contract.
+2)Each rule type implements its own pricing logic
+
+Benefits
+1)New pricing rule types can be added without modifying existing logic
+2)Eliminates large conditional blocks (if-else / switch)
+3)Promotes Open/Closed Principle (OCP)
+
+Factory Pattern - Selecting the appropriate pricing strategy based on RuleType
+
+The pricing engine must dynamically choose the correct rule implementation at runtime.
+
+1) A factory maps RuleType to its corresponding strategy implementation.
+
+Benefits
+
+1)Centralized object creation
+2)Decouples rule execution from rule selection
+3)Simplifies pricing engine logic
+
+Model-View-Controller (MVC) Pattern ---Thymeleaf-based admin console
+
+Separates concerns between UI, business logic, and request handling.
+
+Controllers handle HTTP requests
+
+Models represent domain data
+
+Views render UI using Thymeleaf templates
+
+Benefits
+
+Clean separation of responsibilities
+
+Easier UI maintenance
+
+Well-supported by Spring Boot
+
+
+Repository Pattern -- Data persistence layer using Spring Data JPA
+
+Abstracts database access and isolates persistence logic.
+
+1)Repository interfaces define CRUD operations
+
+2)Spring Data provides implementations at runtime
+
+Benefits
+
+No SQL in business logic
+
+Easy database switching
+
+Improved testability via mocking
+
+
+Data Transfer Object (DTO) Pattern
+
+Price computation requests and responses
+
+API input/output isolation
+
+Entities should not be exposed directly through APIs.
+
+Dedicated request/response objects are used for APIs
+
+Benefits:
+
+Prevents overexposure of internal models
+
+Improves API stability
+
+Enables versioning and validation
+
+Template Method Pattern  -- Pricing engine execution flow
+
+The pricing process follows a fixed sequence:
+
+Load rules
+
+Validate conditions
+
+Apply pricing
+
+Aggregate results
+
+The execution flow is fixed, while rule logic varies
+
+Benefits:
+
+Predictable pricing flow
+
+Easy extension without breaking core logic
+
+
+
+1)Pricing Rule Evaluation
+
+Only active rules (is_active = true) are considered during price computation
+
+Rules are applied based on priority order (lower number = higher priority)
+
+Multiple pricing rules can be applied to a single product
+
+Rule conflicts are resolved by priority, not by rule type
+
+2?) Rule Conditions (condition_json)
+
+Rule conditions are stored in JSON format for flexibility
+
+The JSON structure is assumed to be valid and parsable
+
+Condition evaluation logic is handled in the service layer
+
+Complex condition validation (DSL or expression engine) is out of scope
+
+3?) Pricing Calculation
+
+Price computation is synchronous
+
+Computation is performed per request (no caching by default)
+
+Final price will never be negative
+
+Base price is always derived from the product master
+
+4?) Product Data
+
+Product stock quantity is assumed to be sufficient for price computation
+
+Stock deduction and inventory management are out of scope
+
+Product category and brand are trusted values (no master validation)
+
+5?) User Interface
+
+The Thymeleaf UI is designed for admin/internal usage
+
+No authentication or role-based access control is implemented
+
+UI validation complements backend validation but does not replace it
+
+6?) APIs
+
+REST APIs follow standard HTTP semantics
+
+No API versioning is implemented
+
+Error responses are simplified for readability
+
+Pagination and filtering are not implemented in the initial version
+
+7?) Persistence
+
+Soft deletes are not implemented
+
+Database transactions are managed by Spring
+
+Default isolation level is sufficient for pricing use cases
+
+H2/MySQL are interchangeable without code changes
+
+8) Non-Functional Assumptions
+
+The system is designed for moderate traffic
+
+Horizontal scaling and distributed caching are not required initially
+
+Logging and monitoring are minimal
+
+Security hardening is out of scope
